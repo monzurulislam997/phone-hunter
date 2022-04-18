@@ -5,14 +5,14 @@ const searchResult= ()=>{
         searchField.value=" "
         fetch( `https://openapi.programming-hero.com/api/phones?search=${searchText}`)
         .then(res=>res.json())
-        .then(data=>displayPhones(data.data))
+        .then(data=>displayPhones(data.data.slice(0,12)))
 }
 
 const displayPhones =(phones)=>{
+    
     const phonesContainer= document.getElementById("phones-container");
 
         phones.forEach(phone => {
-            console.log(phone.slug)
         const div=document.createElement('div');
         div.classList.add('col')
         // div.classList.add('w-25')
@@ -31,7 +31,7 @@ const displayPhones =(phones)=>{
 
           phonesContainer.appendChild(div)
     });
-    console.log(phones)
+    console.log(phones.slice(0,12))
 }
 
 
@@ -48,7 +48,8 @@ const loadPhoneDetails =(slug)=>{
 }
 
 const showPhoneDetails =(phoneInfo)=>{
-
+  // var sliced = Array.prototype.slice.call(phoneInfo, 12);
+  console.log(phoneInfo.others)
     const phoneDetails =document.getElementById("phone-details");
         phoneDetails.innerHTML=` 
         
@@ -65,6 +66,8 @@ const showPhoneDetails =(phoneInfo)=>{
             <p class="card-text"> display: ${phoneInfo.mainFeatures.displaySize}</p>
             <p class="card-text"> storage: ${phoneInfo.mainFeatures.storage}</p>
             <p class="card-text"> storage: ${phoneInfo.mainFeatures.chipSet}</p>
+            <p class="card-text"> storage: ${phoneInfo.mainFeatures.sensors}</p>
+            <p class="card-text"> Others: ${phoneInfo.others?.WLAN} , ${phoneInfo.others?.Bluetooth}, ${phoneInfo.others?.GPS}  </p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
           </div>  
         </div>
