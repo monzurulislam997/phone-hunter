@@ -12,18 +12,7 @@ const displayPhones =(phones)=>{
     const phonesContainer= document.getElementById("phones-container");
 
         phones.forEach(phone => {
-        //     console.log(phone)
-        //     const div =document.createElement("div");
-        //     div.classList.add("col")
-        //     div.innerHTML=` 
-        //     <div class="card h-50">
-        //     <img   src="${phone.image}" class="card-img-top" alt="...">
-        //     <div class="card-body">
-        //       <p>${phone.brand}</p>
-              
-        //     </div>
-        //     </div>
-        //   `
+            console.log(phone.slug)
         const div=document.createElement('div');
         div.classList.add('col')
         // div.classList.add('w-25')
@@ -31,9 +20,12 @@ const displayPhones =(phones)=>{
         <div   class="card h-100">
     <img   height="300px" src="${phone.image}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">${phone.brand}</h5>
-      
+        <h2>${phone.phone_name}</h2>
+        
+      <h5 class="card-title"> Brand: ${phone.brand}</h5>
+      <button onclick="loadPhoneDetails('${phone.slug}')">See Details</button>
     </div>
+    
   </div>
 `
 
@@ -41,6 +33,52 @@ const displayPhones =(phones)=>{
     });
     console.log(phones)
 }
+
+
+const loadPhoneDetails =(slug)=>{
+        const url=`https://openapi.programming-hero.com/api/phone/${slug}`
+        fetch(url)
+        .then(res=>res.json())
+        .then(data=>showPhoneDetails(data.data))
+
+    
+
+        console.log(url)
+   
+}
+
+const showPhoneDetails =(phoneInfo)=>{
+
+    const phoneDetails =document.getElementById("phone-details");
+        phoneDetails.innerHTML=` 
+        
+        <div class=" w-50 mx-auto mb-3" style="max-width: 540px;">
+        <h5 class="card-title ms-5 ">${phoneInfo.name} Full Specification</h5>
+        <div class="row g-0">
+        <div class="col-md-4">
+          <img src="${phoneInfo.image}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            
+            <p class="card-text"> ${phoneInfo.releaseDate}</p>
+            <p class="card-text"> display: ${phoneInfo.mainFeatures.displaySize}</p>
+            <p class="card-text"> storage: ${phoneInfo.mainFeatures.storage}</p>
+            <p class="card-text"> storage: ${phoneInfo.mainFeatures.chipSet}</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>  
+        </div>
+        </div>
+      </div>`
+
+}
+
+
+
+
+
+
+
 
 
 /* const searchFood=()=>{
