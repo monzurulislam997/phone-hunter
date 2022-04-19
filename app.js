@@ -1,29 +1,44 @@
 const searchResult= ()=>{
     const searchField=document.getElementById("search-field");
-        const searchText =searchField.value;
-        console.log(searchText)
+     
+     const searchText =searchField.value;
         searchField.value=" "
-        fetch( `https://openapi.programming-hero.com/api/phones?search=${searchText}`)
+        const url=`https://openapi.programming-hero.com/api/phones?search=${searchText}`
+         
+        fetch(url)
         .then(res=>res.json())
-        .then(data=>displayPhones(data.data.slice(0,12)))
+         .then(data=>displayPhones(data.data.slice(0,20)))
+       
+        
 }
 
 const displayPhones =(phones)=>{
-    
+    console.log(phones)
+    const allContent= document.getElementById("all-content");
     const phonesContainer= document.getElementById("phones-container");
-
+    const errorMessage=document.getElementById("error-message");
+    
+        if(phones.length==0){
+        allContent.innerHTML=" "
+        errorMessage.innerText="Not found anything ,reload page for again search";
+         return
+       }
+     
+      
+      
+      
         phones.forEach(phone => {
         const div=document.createElement('div');
         div.classList.add('col')
-        // div.classList.add('w-25')
+        div.classList.add('w-25')
         div.innerHTML=` 
-        <div   class="card h-100">
+        <div   class=" card h-100">
     <img   height="300px" src="${phone.image}" class="card-img-top" alt="...">
     <div class="card-body">
-        <h2>${phone.phone_name}</h2>
+        <h5>${phone.phone_name}</h5>
         
       <h5 class="card-title"> Brand: ${phone.brand}</h5>
-      <button onclick="loadPhoneDetails('${phone.slug}')">See Details</button>
+      <button class="border-0 rounded-2 bg-primary text-white py-1 px-3" onclick="loadPhoneDetails('${phone.slug}')">See Details</button>
     </div>
     
   </div>
@@ -31,7 +46,8 @@ const displayPhones =(phones)=>{
 
           phonesContainer.appendChild(div)
     });
-    console.log(phones.slice(0,12))
+  
+   
 }
 
 
@@ -41,109 +57,76 @@ const loadPhoneDetails =(slug)=>{
         .then(res=>res.json())
         .then(data=>showPhoneDetails(data.data))
 
-    
-
-        console.log(url)
    
 }
 
 const showPhoneDetails =(phoneInfo)=>{
-  // var sliced = Array.prototype.slice.call(phoneInfo, 12);
+  
   console.log(phoneInfo.others)
     const phoneDetails =document.getElementById("phone-details");
+    console.log(phoneInfo.mainFeatures.sensors)
+    const sensorArray =phoneInfo.mainFeatures.sensors;
+          let date;
+        if(phoneInfo.releaseDate!=false){
+          date=phoneInfo.releaseDate;
+        }else{
+          date="Release Date Not found"
+        }
+        console.log(phoneInfo.releaseDate)
         phoneDetails.innerHTML=` 
         
-        <div class=" w-50 mx-auto mb-3" style="max-width: 540px;">
-        <h5 class="card-title ms-5 ">${phoneInfo.name} Full Specification</h5>
+        <div class=" w-50 mx-auto " style="max-width: 540px;">
+        <h2 class="card-title  ms-5 text-success">${phoneInfo.name} Full Specification</h2>
         <div class="row g-0">
         <div class="col-md-4">
           <img src="${phoneInfo.image}" class="img-fluid rounded-start" alt="...">
         </div>
         <div class="col-md-8">
-          <div class="card-body">
+          <div  class="card-body">
+            <ul>  
             
-            <p class="card-text"> ${phoneInfo.releaseDate}</p>
-            <p class="card-text"> display: ${phoneInfo.mainFeatures.displaySize}</p>
-            <p class="card-text"> storage: ${phoneInfo.mainFeatures.storage}</p>
-            <p class="card-text"> storage: ${phoneInfo.mainFeatures.chipSet}</p>
-            <p class="card-text"> storage: ${phoneInfo.mainFeatures.sensors}</p>
-            <p class="card-text"> Others: ${phoneInfo.others?.WLAN} , ${phoneInfo.others?.Bluetooth}, ${phoneInfo.others?.GPS}  </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <li class="card-text text-danger">  ${date}  </li>
+            <li class="card-text text-info "> Display: ${phoneInfo.mainFeatures.displaySize}</li>
+            <li class="card-text text-danger"> Storage: ${phoneInfo.mainFeatures.storage}</li>
+            <li class="card-text text-info"> Chipset: ${phoneInfo.mainFeatures.chipSet}</li>
+            
+            <li class="card-text text-success"> Others Info: ${phoneInfo.others?.WLAN} , ${phoneInfo.others?.Bluetooth}, ${phoneInfo.others?.GPS}  </li>
+
+        </ul>
+            
+           
           </div>  
         </div>
         </div>
       </div>`
 
-}
-
-
-
-
-
-
-
-
-
-/* const searchFood=()=>{
-    const searchFiled=document.getElementById("search-field");
-    const searchText=searchFiled.value;
-    searchFiled.value=" "
-    const url=`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}
-    `
-    fetch(url)
-    .then(res=>res.json())
-    .then(data=>displayResult(data?.meals))
-}
-
-
-const displayResult =meals=>{
-    // console.log(typeof meals)
-    const cardContainer=document.getElementById("card-container");
-        cardContainer.innerHTML=" "
-        if(typeof meals!="object"){
-            console.log(typeof meals!="object")
-            document.getElementById("error").innerText="<h4>No content found</h4>"
+     
+      
+      const sensor =document.getElementById('sensor');
+      sensor.innerHTML=" "
        
-        }
-    else {
-        meals.forEach(meal => {
-            const div=document.createElement('div');
-            div.classList.add('col')
-            div.classList.add('img-fluid')
-            div.innerHTML=` 
-            <div onclick="loadMeal(${meal.idMeal})"  class="card h-100">
-        <img src="${meal.strMealThumb}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">${meal.strMeal}</h5>
-          <p class="card-text">${meal.strInstructions.slice(0,40)}</p>
-        </div>
-      </div>
-            `
-            cardContainer.appendChild(div)
-        
-        // console.log(meal) 
-    });
-    }
+      sensorArray.forEach(element=>{
+       
+        // const sensor =document.getElementById('sensor');
+          document.getElementById("sensor-title").innerText="Sensor Information"
+          const ul=document.createElement('ul')
+          
+          ul.innerHTML=` 
+          
+     <li >${element}</li> `;
+  
+          sensor.appendChild(ul)
+         
+      })
+      
+      
+
+
+
 }
 
-const loadMeal =(mealId)=>{
-    const url=`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
-    fetch(url)
-    .then(res=>res.json())
-    .then(data=>displayMealInfo(data))
 
-   
-}
-const displayMealInfo =(data)=>{
-    console.log(data)
-    // const mealInfo =data.meals[0];
-    console.log(mealInfo.strMealThumb)
-    const singleMealInfo=document.getElementById("single-mealInfo");
-    
-    singleMealInfo.innerHTML =`
-    <img class="card-img-top" src="${mealInfo.strMealThumb}" alt="Card image cap">
-    
-      <p class="card-text">${mealInfo.strInstructions}</p>
-    `
-    
-} */
+
+
+ 
+  

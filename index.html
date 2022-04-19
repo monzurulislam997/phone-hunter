@@ -16,28 +16,48 @@
             <section >
               
                 <div class="input-group  w-50 mx-auto m-5">
-                    <input type="text" id="search-field" class="form-control" placeholder="Search your favourite phone" aria-label="Recipient's username" aria-describedby="button-addon2"  >
+                         <!-- <input type="text" id="search-field">  -->
+                     
+                    <input type="text" id="search-field" class="form-control" placeholder="Search your favourite phone" aria-label="Recipient's username" aria-describedby="button-addon2"  > 
                     <button class="btn btn-outline-secondary bg-success fs-5 text-white " type="button" onclick="searchResult()" id="button-addon2">Button</button>
                   </div> 
 
             </section>
 
             <!-- phones show section -->
+
             <section>
-
-                
-                  <div id="phone-details">
-                   
-                
+                <div >
+                    <p id="error-message"></p>
                 </div>
+            </section>
 
+            <section id="all-content">
 
-                <div id="phones-container"  class=" row row-cols-1 row-cols-md-3 g-4">
+                
+
+                
+                  <div>
+
+                    <div class="" id="phone-details">
+                   
+                    
+                
+                    </div>
+                    <div>
+                        <h3 id="sensor-title"></h3>
+                        <div class=" w-50 mx-auto " id="sensor">
+                            
+                        </div>
+                    </div>
+                  </div>
+
+                <div id="phones-container"  class=" row row-cols-1 row-cols-md-3 g-5">
                     
                  
                   </div>
             </section>
-
+           
         </main>
 
         <script src="app.js"></script>
