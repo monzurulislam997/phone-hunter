@@ -11,7 +11,7 @@ const searchResult= ()=>{
        
         
 }
-
+    //displayphone area 
 const displayPhones =(phones)=>{
     console.log(phones)
     const allContent= document.getElementById("all-content");
@@ -49,7 +49,7 @@ const displayPhones =(phones)=>{
   
    
 }
-
+//load phone information
 
 const loadPhoneDetails =(slug)=>{
         const url=`https://openapi.programming-hero.com/api/phone/${slug}`
@@ -59,13 +59,13 @@ const loadPhoneDetails =(slug)=>{
 
    
 }
-
+//show phone details
 const showPhoneDetails =(phoneInfo)=>{
   
-  console.log(phoneInfo.others)
     const phoneDetails =document.getElementById("phone-details");
     console.log(phoneInfo.mainFeatures.sensors)
     const sensorArray =phoneInfo.mainFeatures.sensors;
+        //if date not found
           let date;
         if(phoneInfo.releaseDate!=false){
           date=phoneInfo.releaseDate;
@@ -75,7 +75,7 @@ const showPhoneDetails =(phoneInfo)=>{
         console.log(phoneInfo.releaseDate)
         phoneDetails.innerHTML=` 
         
-        <div class=" w-50 mx-auto " style="max-width: 540px;">
+        <div class=" rounded p-4   w-50 mx-auto " style="max-width: 540px;">
         <h2 class="card-title  ms-5 text-success">${phoneInfo.name} Full Specification</h2>
         <div class="row g-0">
         <div class="col-md-4">
@@ -101,13 +101,13 @@ const showPhoneDetails =(phoneInfo)=>{
       </div>`
 
      
-      
+      //sensor data remove
       const sensor =document.getElementById('sensor');
       sensor.innerHTML=" "
-       
+       //sensor array looping
       sensorArray.forEach(element=>{
        
-        // const sensor =document.getElementById('sensor');
+        
           document.getElementById("sensor-title").innerText="Sensor Information"
           const ul=document.createElement('ul')
           
